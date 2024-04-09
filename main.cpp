@@ -24,13 +24,18 @@ int main(int argc, char *argv[]) {
     QPushButton *resetButton = mainWindow.findChild<QPushButton*>("pushButton_2");
     QPushButton *addButton = mainWindow.findChild<QPushButton*>("pushButton_3");
     QPushButton *joinButton = mainWindow.findChild<QPushButton*>("pushButton_4");
+    QPushButton *deleteButton = mainWindow.findChild<QPushButton*>("delete_2");
     QLineEdit *lineEdit = mainWindow.findChild<QLineEdit*>("lineEdit_3");
     QSpinBox *spinBox = mainWindow.findChild<QSpinBox*>("spinBox");
     QComboBox *comboBox = mainWindow.findChild<QComboBox*>("comboBox");
     QComboBox *comboBox2 = mainWindow.findChild<QComboBox*>("comboBox_2");
     QLabel *label = mainWindow.findChild<QLabel*>("label_5");
     QTreeView *treeView = mainWindow.findChild<QTreeView*>("treeView");
-    QStringList tableNames = populateTreeView(treeView, conn); // Populate the tree view and get table names
+    //QTreeView *departments = mainWindow.findChild<QTreeView*>("treeView_2");
+    QTableView *departments = mainWindow.findChild<QTableView*>("tableView");
+
+    QStringList tableNames = populateTreeView(treeView, conn);
+    populateTableView(departments, conn);// Populate the tree view and get table names
     //QLineEdit *date = mainWindow.findChild<QLineEdit*>("lineEdit");
     QLineEdit *dateLineEdit = mainWindow.findChild<QLineEdit*>("lineEdit");
     QRegularExpressionValidator *validator = new QRegularExpressionValidator(QRegularExpression("\\d{2}-\\d{2}-\\d{4}"), dateLineEdit);
@@ -58,8 +63,16 @@ int main(int argc, char *argv[]) {
         on_pushButton_clicked(textEdit, conn, lineEdit, spinBox, comboBox, label);
     });
 
+    QObject::connect(deleteButton, &QPushButton::clicked, [&]() {
+        deleteLatestCompany(conn);
+    });
+
+    QObject::connect(departments, &QTreeView::clicked, [&]() {
+        on_treeView_clicked(treeView, departments, textEdit, conn, spinBox);
+    });
+
     QObject::connect(treeView, &QTreeView::clicked, [&]() {
-        on_treeView_clicked(treeView, textEdit, conn, spinBox);
+        on_treeView_clicked(treeView, departments, textEdit, conn, spinBox);
     });
 
     QObject::connect(addButton, &QPushButton::clicked, [&]() {

@@ -23,6 +23,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QVBoxLayout>
@@ -37,6 +38,11 @@ public:
     QVBoxLayout *verticalLayout_5;
     QLabel *label_5;
     QTreeView *treeView;
+    QSpacerItem *verticalSpacer;
+    QLabel *label_6;
+    QPushButton *pushButton_3;
+    QPushButton *delete_2;
+    QSpacerItem *verticalSpacer_2;
     QVBoxLayout *verticalLayout;
     QLabel *label_3;
     QLineEdit *lineEdit_3;
@@ -48,7 +54,6 @@ public:
     QSpacerItem *horizontalSpacer;
     QPushButton *pushButton_2;
     QSpacerItem *horizontalSpacer_3;
-    QPushButton *pushButton_3;
     QSpacerItem *horizontalSpacer_4;
     QPushButton *pushButton;
     QSpacerItem *horizontalSpacer_2;
@@ -59,6 +64,8 @@ public:
     QComboBox *comboBox_2;
     QLineEdit *lineEdit;
     QDateEdit *dateEdit;
+    QTreeView *treeView_2;
+    QTableView *tableView;
     QTextEdit *textEdit;
     QFrame *line;
 
@@ -93,6 +100,30 @@ public:
         treeView->header()->setVisible(false);
 
         verticalLayout_5->addWidget(treeView);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_5->addItem(verticalSpacer);
+
+        label_6 = new QLabel(Dialog);
+        label_6->setObjectName(QString::fromUtf8("label_6"));
+        label_6->setFont(font);
+
+        verticalLayout_5->addWidget(label_6);
+
+        pushButton_3 = new QPushButton(Dialog);
+        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+
+        verticalLayout_5->addWidget(pushButton_3);
+
+        delete_2 = new QPushButton(Dialog);
+        delete_2->setObjectName(QString::fromUtf8("delete_2"));
+
+        verticalLayout_5->addWidget(delete_2);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_5->addItem(verticalSpacer_2);
 
 
         horizontalLayout_2->addLayout(verticalLayout_5);
@@ -144,11 +175,6 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer_3);
 
-        pushButton_3 = new QPushButton(Dialog);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-
-        horizontalLayout->addWidget(pushButton_3);
-
         horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer_4);
@@ -182,7 +208,7 @@ public:
         spinBox = new QSpinBox(Dialog);
         spinBox->setObjectName(QString::fromUtf8("spinBox"));
         spinBox->setMaximum(999);
-        spinBox->setDisplayIntegerBase(3);
+        spinBox->setDisplayIntegerBase(10);
 
         verticalLayout->addWidget(spinBox);
 
@@ -200,6 +226,18 @@ public:
         dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
 
         verticalLayout->addWidget(dateEdit);
+
+        treeView_2 = new QTreeView(Dialog);
+        treeView_2->setObjectName(QString::fromUtf8("treeView_2"));
+
+        verticalLayout->addWidget(treeView_2);
+
+        tableView = new QTableView(Dialog);
+        tableView->setObjectName(QString::fromUtf8("tableView"));
+        tableView->setMinimumSize(QSize(0, 50));
+        tableView->setMaximumSize(QSize(16777215, 50));
+
+        verticalLayout->addWidget(tableView);
 
         textEdit = new QTextEdit(Dialog);
         textEdit->setObjectName(QString::fromUtf8("textEdit"));
@@ -231,13 +269,15 @@ public:
     {
         Dialog->setWindowTitle(QCoreApplication::translate("Dialog", "Dialog", nullptr));
         label_5->setText(QCoreApplication::translate("Dialog", "Companies", nullptr));
+        label_6->setText(QCoreApplication::translate("Dialog", "Contracts (adds new co)", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("Dialog", "Add", nullptr));
+        delete_2->setText(QCoreApplication::translate("Dialog", "Delete", nullptr));
         label_3->setText(QCoreApplication::translate("Dialog", "Table", nullptr));
         lineEdit_3->setText(QString());
         label_2->setText(QCoreApplication::translate("Dialog", "Table ", nullptr));
         label->setText(QCoreApplication::translate("Dialog", "Contacts", nullptr));
         lineEdit_2->setText(QString());
         pushButton_2->setText(QCoreApplication::translate("Dialog", "Reset", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("Dialog", "Add", nullptr));
         pushButton->setText(QCoreApplication::translate("Dialog", "Search", nullptr));
         pushButton_4->setText(QCoreApplication::translate("Dialog", "Join", nullptr));
         label_4->setText(QCoreApplication::translate("Dialog", "Limit", nullptr));

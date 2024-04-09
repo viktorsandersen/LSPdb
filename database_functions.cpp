@@ -9,6 +9,8 @@
 #include <QRegularExpressionValidator>
 
 
+
+
 TableItemDelegate::TableItemDelegate(QObject *parent)
     : QStyledItemDelegate(parent) {}
 
@@ -34,16 +36,29 @@ void on_resetButton_clicked(QComboBox *comboBox, pqxx::connection &conn, QTextEd
     }
 }
 
-void on_treeView_clicked(QTreeView *treeView, QTextEdit *textEdit, pqxx::connection &conn, QSpinBox *spinBox) {
+void on_treeView_clicked(QTreeView *treeView, QTableView *tableView, QTextEdit *textEdit, pqxx::connection &conn, QSpinBox *spinBox) {
     int limit = spinBox->value();
-    QModelIndex index = treeView->currentIndex();
-    QString tableName = index.data().toString();
-    std::cout << tableName.toStdString() << std::endl;
-    //SELECT first_name, last_name FROM contacts WHERE department='R&D';
+    QModelIndex treeIndex = treeView->currentIndex();
+    QString treeName = treeIndex.data().toString();
+    //std::cout << "Clicked on tree item: " << treeName.toStdString() << std::endl;
 
+
+    QModelIndex tableIndex = tableView->currentIndex();
+    QString tableName = tableIndex.data().toString();
+    //std::cout << "Clicked on table in QTableView: " << tableName.toStdString() << std::endl;
 
     pqxx::work txn(conn);
-    pqxx::result result = txn.exec("SELECT c.first_name, c.last_name FROM contacts c INNER JOIN department d ON c.department = d.name INNER JOIN companies co ON d.department_id = co.company_id WHERE co.name = '" + tableName.toStdString() + "' LIMIT " + std::to_string(limit));
+
+    // Check if a table has been clicked in the QTableView
+
+    if (!tableIndex.isValid() | tableName.toStdString() == "All") {
+        pqxx::result result = txn.exec("SELECT c.first_name, c.last_name FROM contacts c INNER JOIN department d ON c.department = d.name INNER JOIN companies co ON d.department_id = co.company_id WHERE co.name = '" + treeName.toStdString() + "' LIMIT " + std::to_string(limit));
+        setText(textEdit, txn, result);
+        return;
+    }
+
+    std::string query = "SELECT c.first_name, c.last_name FROM contacts c INNER JOIN department d ON c.department = d.name INNER JOIN companies co ON d.company = co.name WHERE co.name = '" + treeName.toStdString() + "' AND c.department = '" + tableName.toStdString() + "' LIMIT " + std::to_string(limit);
+    pqxx::result result = txn.exec(query);
     setText(textEdit, txn, result);
 }
 
@@ -63,6 +78,57 @@ QStringList populateTreeView(QTreeView *treeView, pqxx::connection &conn) {
     treeView->expandAll();
     return tableNames;
 }
+
+#include <QTableView>
+#include <QStandardItemModel>
+
+void populateTableView(QTableView *tableView, pqxx::connection &conn) {
+    pqxx::work txn(conn);
+    std::string query = "SELECT DISTINCT d.name FROM department d";
+    pqxx::result result = txn.exec(query);
+    //Change it so the department is chosen based on which TreeView is clicked
+
+    int numRows = 1;
+    int numCols = result.size() + 1; // Add 1 for the "All" item
+
+    QStandardItemModel *model = new QStandardItemModel(numRows, numCols, tableView);
+    QFont font("Arial", 12); // Adjust the font family and size as needed
+    tableView->setFont(font);
+
+    // Calculate the size for each item
+    int itemWidth = 150;
+    int itemHeight = 50;
+
+    // Add "All" item to the model
+    QStandardItem *allItem = new QStandardItem("All");
+    allItem->setSizeHint(QSize(itemWidth, itemHeight)); // Set the fixed size of the item
+    //allItem->setTextAlignment(Qt::AlignCenter);
+    model->setItem(0, 0, allItem);
+
+    // Populate the model with data from department table
+    for (int i = 0; i < int(result.size()); i++) {
+        QString data = QString::fromStdString(result[i][0].c_str());
+        QStandardItem *item = new QStandardItem(data);
+        item->setSizeHint(QSize(itemWidth, itemHeight)); // Set the fixed size of the item
+        model->setItem(0, i + 1, item); // Shift index by 1 to accommodate "All" item
+    }
+
+    // Set the fixed size for each row
+    tableView->verticalHeader()->setDefaultSectionSize(itemHeight);
+
+    // Set the fixed size for each column
+    for (int i = 0; i < numCols; ++i) {
+        tableView->setColumnWidth(i, itemWidth);
+    }
+
+    tableView->horizontalHeader()->setVisible(false);
+    tableView->verticalHeader()->setVisible(false);
+    tableView->setModel(model);
+}
+
+
+
+
 
 void setText(QTextEdit *textEdit, pqxx::work &txn, pqxx::result result) {
     textEdit->clear();
@@ -109,6 +175,14 @@ void on_pushButton_clicked(QTextEdit *textEdit, pqxx::connection &conn, QLineEdi
         std::cout << "catch" << std::endl;
         return;
     }
+}
+
+void deleteLatestCompany(pqxx::connection &conn) {
+    pqxx::work txn(conn);
+    //int company_id = getNextId(txn, "companies");
+    txn.exec("DELETE FROM companies WHERE company_id = (SELECT MAX(company_id) FROM companies); ");
+    txn.commit();
+    std::cout << "Deleted" << std::endl;
 }
 
 void insertData(pqxx::connection &conn, const QString &tableName, const QString &data) {
