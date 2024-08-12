@@ -9,7 +9,7 @@
 #include <QRegularExpressionValidator>
 
 
-
+//QWidget* Delegate::
 
 TableItemDelegate::TableItemDelegate(QObject *parent)
     : QStyledItemDelegate(parent) {}
