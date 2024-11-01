@@ -4,6 +4,7 @@
 
 ## Creating the Database
 
+```sql
 CREATE DATABASE lsp WITH PASSWORD =  'lsp'; Set the desired password
 
 CREATE TABLE Contacts (
