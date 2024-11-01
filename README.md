@@ -1,7 +1,7 @@
 # LSPdb
 
 ## To-do list
-- [ ] Implement Delegate
+- [ ] Delegate and model view
 - [ ] Clean up code and divide into classes
 
 
