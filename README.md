@@ -115,5 +115,19 @@ INSERT INTO Companies(Name,City,Country,Company_ID) VALUES
 psql -d mydb -U myuser
 ```
 
-The apllication uses libpqxx the C++ client library for PostgreSQL
-1. 
+The apllication uses libpqxx the C++ client library for PostgreSQL. 
+To install the library follow these steps:
+1. sudo apt update
+2. sudo apt install libpqxx-dev
+3. Test with code
+``` c++
+try {
+        pqxx::connection conn("dbname=test user=postgres password=yourpassword");
+        if (conn.is_open()) {
+            std::cout << "Connected to database!" << std::endl;
+        }
+        conn.disconnect();
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
+    return 0;
