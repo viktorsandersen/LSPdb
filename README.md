@@ -3,6 +3,7 @@
 ## To-do list
 - [ ] Delegate and model view
 - [ ] Clean up code and divide into classes
+- [ ] Write/insert guide for installing postgres!
 
 
 ## Diagram 
