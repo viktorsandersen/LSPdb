@@ -2,7 +2,7 @@
 
 ## To-do list
 - [ ] Delegate and model view
-- [ ] Clean up code and divide into classes
+- [ ] Clean up code and make dialog class for ui
 - [ ] Write/insert guide for installing postgres!
 
 
