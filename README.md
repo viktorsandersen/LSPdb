@@ -3,7 +3,7 @@
 ## To-do list
 - [ ] Implement Delegate
 - [ ] Clean up code and divide into classes
-- [ ] 
+
 
 ## Diagram 
 ![image](https://github.com/user-attachments/assets/9b145d29-3655-41ad-9ddf-30d28cb831d2)
