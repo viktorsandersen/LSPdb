@@ -3,6 +3,7 @@
 
 
 ## Creating the Database
+This code creates a dummy database to test the application
 
 ```sql
 CREATE DATABASE lsp WITH PASSWORD =  'lsp'; Set the desired password
