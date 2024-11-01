@@ -119,7 +119,8 @@ The apllication uses libpqxx the C++ client library for PostgreSQL.
 To install the library follow these steps:
 1. sudo apt update
 2. sudo apt install libpqxx-dev
-3. Test with code
+3. include this in the .pro file if your using qmake "LIBS += -lpq -lpqxx"
+4. Test with code below
 ``` c++
 try {
         pqxx::connection conn("dbname=test user=postgres password=yourpassword");
@@ -131,3 +132,4 @@ try {
         std::cerr << e.what() << std::endl;
     }
     return 0;
+```
