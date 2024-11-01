@@ -1,5 +1,7 @@
 # LSPdb
 
+## Diagram 
+![image](https://github.com/user-attachments/assets/9b145d29-3655-41ad-9ddf-30d28cb831d2)
 
 
 ## Creating the Database
