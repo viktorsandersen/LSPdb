@@ -3,8 +3,7 @@
 
 ## Creating the Database
 
-
-CREATE DATABASE lsp WITH PASSWORD =  ''; Set the desired password
+CREATE DATABASE lsp WITH PASSWORD =  'lsp'; Set the desired password
 
 CREATE TABLE Contacts (
  first_name varchar (50),
@@ -30,7 +29,7 @@ CREATE TABLE Companies (
 );
 
 
-### 
+
 INSERT INTO Contacts (First_name, Last_name, Phone_number,Email,Department) VALUES
       
 	('Emily', 'Anderson', '12345678', 'emily.anderson@example.com', 'R&D'),
