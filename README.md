@@ -113,3 +113,6 @@ INSERT INTO Companies(Name,City,Country,Company_ID) VALUES
 ('Odico A/S','Svenborg','Denmark',4);
 
 psql -d mydb -U myuser
+
+The apllication uses libpqxx the C++ client library for PostgreSQL
+1. 
