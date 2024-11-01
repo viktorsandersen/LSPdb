@@ -1,4 +1,4 @@
-# LSPdb
+# LSP Database
 
 ## To-do list
 - [ ] Delegate and model view
